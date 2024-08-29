@@ -12,10 +12,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 public class Order {
@@ -24,11 +26,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String orderCode;
-    private String pizzaDescription;
+    private String pizzaDetails;
     private String customerName;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -36,10 +38,10 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Order(String pizzaDescription, String customerName) {
-        this.pizzaDescription = pizzaDescription;
+    public Order(String pizzaDetails, String customerName) {
+        this.pizzaDetails = pizzaDetails;
         this.customerName = customerName;
-        this.orderStatus = OrderStatus.IN_QUEUE;
+        this.status = OrderStatus.IN_QUEUE;
         this.orderCode = UUID.randomUUID().toString();
     }
 }
