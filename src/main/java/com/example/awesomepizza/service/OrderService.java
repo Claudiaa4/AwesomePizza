@@ -29,6 +29,10 @@ public class OrderService {
                 .orElseThrow(() -> new NoSuchElementException("Order not found with code: " + orderCode));
     }
 
+    public List<Order> getAllOrders(){
+        return orderRepository.findAll();
+    }
+
     public Order updateOrderStatus(Long orderId, String status){
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new NoSuchElementException("Order not found"));
         OrderStatus orderStatus = OrderStatus.valueOf(status);

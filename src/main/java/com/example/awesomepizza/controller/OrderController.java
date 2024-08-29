@@ -34,7 +34,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping(path = "/{orderCode}")
+    @GetMapping("/{orderCode}")
     public ResponseEntity<?> getOrderByCode(@PathVariable String orderCode) {
         try {
             Order order = orderService.getOrderByCode(orderCode);
@@ -44,6 +44,17 @@ public class OrderController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+
+        if (orders.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No orders found");
+        } else {
+            return ResponseEntity.ok(orders);
         }
     }
 
@@ -61,11 +72,10 @@ public class OrderController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Enum " + status + " doesn't exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Enum " + status + " doesn't exists");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An unexpected error occurred: " + e.getMessage());
         }
     }
-
 }
