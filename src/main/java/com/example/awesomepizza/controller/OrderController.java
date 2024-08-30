@@ -47,7 +47,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<?> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
 
